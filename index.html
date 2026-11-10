@@ -1,0 +1,301 @@
+<title>CU-200 Service View</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Scan-to-AR exploded view of the CU-200 control unit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a service tag. Unit ID band, the model as the hero, one scrub control, then the parts list. */
+:root {
+  --bg: #eef0f2;
+  --surface: #ffffff;
+  --ink: #15181c;
+  --muted: #5b636d;
+  --line: #d3d8de;
+  --accent: #e8620f;      /* same orange as the cover */
+  --accent-ink: #ffffff;
+  --stage: #dfe3e8;
+  --led: #1f9d55;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121519; --surface: #1a1e23; --ink: #e9ecef; --muted: #98a2ad; --line: #2c333b;
+    --accent: #ff7a26; --accent-ink: #15181c; --stage: #1f242a; --led: #3ddc84; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121519; --surface: #1a1e23; --ink: #e9ecef; --muted: #98a2ad; --line: #2c333b;
+  --accent: #ff7a26; --accent-ink: #15181c; --stage: #1f242a; --led: #3ddc84; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-block: 16px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+
+/* Tag band */
+.tag {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px;
+  border-bottom: 2px solid var(--ink); padding-bottom: 10px;
+}
+.tag h1 {
+  margin: 0; font-family: var(--font-display); font-stretch: 78%; font-weight: 800;
+  font-size: clamp(28px, 6vw, 44px); line-height: 1; letter-spacing: -0.01em; text-wrap: balance;
+}
+.tag h1 span { color: var(--accent); }
+.meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+.meta b { color: var(--ink); font-weight: 500; }
+.status { display: inline-flex; align-items: center; gap: 6px; }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--led); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led) 25%, transparent); }
+
+/* Main grid */
+.main { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 860px) { .main { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; } }
+
+/* Stage */
+.stage {
+  position: relative; background: var(--stage); border-radius: 6px; overflow: hidden;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px; background-position: -1px -1px;
+}
+model-viewer {
+  display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; max-width: 100%;
+  --poster-color: transparent; --progress-bar-color: var(--accent);
+}
+@media (min-width: 600px) { model-viewer { aspect-ratio: 4 / 3; } }
+.corner {
+  position: absolute; top: 10px; left: 12px; font-family: var(--font-mono); font-size: 11px;
+  color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; pointer-events: none;
+}
+.ar-btn {
+  position: absolute; right: 12px; bottom: 12px;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 4px;
+  font: 700 15px/1 var(--font-body); padding: 12px 16px; cursor: pointer;
+}
+.ar-btn svg { width: 18px; height: 18px; }
+.ar-btn:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Controls */
+.controls { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.phase { font-family: var(--font-display); font-weight: 700; font-stretch: 85%; font-size: 18px; }
+input[type="range"] { width: 100%; accent-color: var(--accent); height: 28px; }
+.scale { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.toggle {
+  background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 4px;
+  font: 600 13px/1 var(--font-body); padding: 9px 12px; cursor: pointer;
+}
+.toggle[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+/* Parts list */
+.parts { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.parts h2 { margin: 0; padding: 14px 14px 8px; font-family: var(--font-display); font-stretch: 85%; font-size: 18px; }
+.parts ol { list-style: none; margin: 0; padding: 0; }
+.parts button {
+  width: 100%; text-align: left; background: transparent; color: inherit; border: 0;
+  border-top: 1px solid var(--line); padding: 10px 14px; cursor: pointer;
+  display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 4px 10px; align-items: baseline;
+  font: inherit;
+}
+.parts button:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.parts button[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.pos { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.name { font-weight: 600; min-width: 0; }
+.pn { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.note { grid-column: 2 / 4; font-size: 13px; color: var(--muted); }
+
+/* Scan panel (shown only when opened outside an embed, on a wide screen) */
+.scan { display: flex; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px; }
+#qr { background: #fff; padding: 8px; border-radius: 4px; flex: none; }
+#qr img, #qr canvas { display: block; width: 112px; height: 112px; }
+.scan p { margin: 0; font-size: 13px; color: var(--muted); max-width: 30ch; }
+.scan strong { color: var(--ink); display: block; font-size: 15px; margin-bottom: 2px; }
+
+.foot { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="tag">
+    <h1>CU-200 <span>Control Unit</span></h1>
+    <div class="meta">
+      <span>S/N <b>CU2-04471</b></span>
+      <span>Rev <b>C</b></span>
+      <span class="status">Demo asset</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <div style="display:grid; gap:16px; min-width:0">
+      <div class="stage">
+        <model-viewer id="mv" src="cu200.glb" alt="3D model of the CU-200 control unit"
+          animation-name="Explode" camera-controls touch-action="pan-y"
+          camera-orbit="35deg 64deg 1.7m" camera-target="0m 0.24m 0m" min-camera-orbit="auto auto 0.7m" max-camera-orbit="auto auto 2.8m"
+          field-of-view="32deg" shadow-intensity="1" shadow-softness="0.8" exposure="1.05"
+          environment-image="neutral" interaction-prompt="none"
+          ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor">
+          <button slot="ar-button" class="ar-btn" id="arBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>
+            View in your space
+          </button>
+        </model-viewer>
+        <div class="corner">Drag to rotate · pinch to zoom</div>
+      </div>
+
+      <section class="controls" aria-labelledby="phaseLbl">
+        <div class="row">
+          <div>
+            <div class="label" id="phaseLbl">Teardown stage</div>
+            <div class="phase" id="phase">Assembled</div>
+          </div>
+          <button class="toggle" id="play" aria-pressed="false">Play loop</button>
+        </div>
+        <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Teardown: assembled to fully exploded">
+        <div class="scale"><span>Assembled</span><span>Exploded</span></div>
+      </section>
+    </div>
+
+    <div style="display:grid; gap:16px; min-width:0">
+      <section class="parts" aria-labelledby="partsH">
+        <h2 id="partsH">Removal sequence</h2>
+        <ol id="partList"></ol>
+      </section>
+
+      <section class="scan" id="scanPanel" hidden>
+        <div id="qr"></div>
+        <p><strong>Open on your phone</strong>Scan to load this unit and place it on the floor in AR.</p>
+      </section>
+
+      <p class="foot">Stand-in geometry. Swap cu200.glb for the real CAD export to show the actual machine.</p>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  const mv = document.getElementById('mv');
+  const scrub = document.getElementById('scrub');
+  const phase = document.getElementById('phase');
+  const playBtn = document.getElementById('play');
+  const list = document.getElementById('partList');
+
+  // Explode window baked into the GLB: 0.8 s (assembled) → 2.6 s (fully exploded)
+  const T0 = 0.8, T1 = 2.6;
+
+  // Removal order mirrors the animation. t = moment that part is fully off.
+  const parts = [
+    { pos: '01', name: 'Cover screws ×4', pn: 'ISO 7380 M4×30', note: 'Torx T20. Refit at 1.2 N·m.', mat: 'Steel screw', t: 1.45 },
+    { pos: '02', name: 'Top cover',       pn: 'CU2-110-OR',     note: 'Lift straight up. Rear lip hooks the chassis.', mat: 'Cover safety orange', t: 1.9 },
+    { pos: '03', name: 'Front panel',     pn: 'CU2-140',        note: 'Status LEDs: 2 × run, 1 × fault.', mat: 'Front panel', t: 2.1 },
+    { pos: '04', name: 'CPU heatsink',    pn: 'HS-62-8F',       note: 'Replace thermal pad on refit.', mat: 'Anodised aluminium', t: 2.3 },
+    { pos: '05', name: 'Cooling fan',     pn: 'FAN-100-12V',    note: 'Airflow toward the PSU side.', mat: 'Fan polymer', t: 2.4 },
+    { pos: '06', name: 'Controller PCB',  pn: 'CU2-PCB-R3',     note: 'ESD strap required. 4 standoffs.', mat: 'PCB solder mask', t: 2.45 },
+    { pos: '07', name: 'Power supply',    pn: 'PSU-150W-24',    note: 'Isolate mains before removal.', mat: 'PSU housing', t: 2.5 }
+  ];
+
+  let selected = null;
+  parts.forEach((p, i) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button'; b.id = 'part-' + p.pos; b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = `<span class="pos">${p.pos}</span><span class="name">${p.name}</span><span class="pn">${p.pn}</span><span class="note">${p.note}</span>`;
+    b.addEventListener('click', () => select(i));
+    li.appendChild(b); list.appendChild(li);
+  });
+
+  function setTime(t) {
+    mv.pause();
+    mv.currentTime = t;
+    playBtn.setAttribute('aria-pressed', 'false');
+    playBtn.textContent = 'Play loop';
+    syncUI(t);
+  }
+
+  function syncUI(t) {
+    const tc = Math.min(Math.max(t, T0), T1);
+    if (document.activeElement !== scrub) scrub.value = Math.round((tc - T0) / (T1 - T0) * 1000);
+    let label = 'Assembled';
+    if (t >= T1 - 0.01) label = 'Fully exploded';
+    else { for (const p of parts) if (t >= p.t) label = 'Removed: ' + p.name.toLowerCase(); }
+    if (t > 2.6 && t < 4.0) label = 'Fully exploded';
+    if (t >= 4.0 && t < 5.6) label = 'Reassembling';
+    if (t >= 5.6) label = 'Assembled';
+    phase.textContent = label;
+  }
+
+  scrub.addEventListener('input', () => {
+    setTime(T0 + (scrub.value / 1000) * (T1 - T0));
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (mv.paused) {
+      mv.play({ repetitions: Infinity });
+      playBtn.setAttribute('aria-pressed', 'true'); playBtn.textContent = 'Pause';
+      loop();
+    } else {
+      mv.pause();
+      playBtn.setAttribute('aria-pressed', 'false'); playBtn.textContent = 'Play loop';
+    }
+  });
+
+  function loop() {
+    if (mv.paused) return;
+    syncUI(mv.currentTime);
+    requestAnimationFrame(loop);
+  }
+
+  // Highlight a part: tint its material, jump to the moment it is off
+  const ORIGINAL = new Map();
+  function select(i) {
+    const p = parts[i];
+    const same = selected === i;
+    selected = same ? null : i;
+    list.querySelectorAll('button').forEach((b, j) => b.setAttribute('aria-pressed', String(j === selected)));
+    if (!mv.model) return;
+    mv.model.materials.forEach(m => {
+      if (!ORIGINAL.has(m.name)) ORIGINAL.set(m.name, m.emissiveFactor.slice());
+      m.setEmissiveFactor(ORIGINAL.get(m.name));
+    });
+    if (!same) {
+      const m = mv.model.getMaterialByName(p.mat);
+      if (m) m.setEmissiveFactor([0.9, 0.35, 0.05]);
+      setTime(T1);
+    }
+  }
+
+  mv.addEventListener('load', () => { setTime(T0); });
+
+  // In AR, run the loop so the teardown plays in the room
+  mv.addEventListener('ar-status', e => {
+    if (e.detail.status === 'session-started') mv.play({ repetitions: Infinity });
+  });
+
+  // Desktop, standalone page: show a QR so a phone can open the same URL
+  let embedded = true;
+  try { embedded = window.self !== window.top; } catch (_) {}
+  const wide = window.matchMedia('(min-width: 860px)').matches;
+  if (!embedded && wide && window.QRCode) {
+    document.getElementById('scanPanel').hidden = false;
+    new QRCode(document.getElementById('qr'), { text: location.href.split('#')[0], width: 224, height: 224, colorDark: '#15181c', colorLight: '#ffffff' });
+  }
+})();
+</script>
